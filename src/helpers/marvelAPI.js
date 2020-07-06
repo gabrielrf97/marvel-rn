@@ -17,20 +17,6 @@ const server = axios.create({
     baseURL: 'https://gateway.marvel.com/v1/public/'
 })
 
-export async function fetchCharacters(name, fetchedPages) {
-    let params = PARAMS
-    
-    let offset = fetchedPages * LIMIT
-    params.offset = offset
-
-    name ? params.name = name : null
-
-    let response = await server.get('/characters', {
-        params: params
-    })
-    return response.data.data.results
-}
-
 export async function fetchCharacter(id) {
     let params = PARAMS
 
@@ -44,7 +30,7 @@ export async function fetchCharacter(id) {
     return response.data.data.results[0]
 }
 
-export async function fetchHQs(name, fetchedPages) {
+export async function fetch(route, name, fetchedPages) {
     let params = PARAMS
     
     let offset = fetchedPages * LIMIT
@@ -52,7 +38,7 @@ export async function fetchHQs(name, fetchedPages) {
 
     name ? params.name = name : null
 
-    let response = await server.get('/comics', {
+    let response = await server.get(route, {
         params: params
     })
     return response.data.data.results

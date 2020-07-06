@@ -4,6 +4,7 @@ import {withNavigation} from 'react-navigation'
 
 const ComicItem = ({navigation, comicInfo, pressRoute}) => {
     
+    console.log(`COMIC INFO: ${comicInfo}`)
     let picturePath = comicInfo.thumbnail.path +'.'+ comicInfo.thumbnail.extension
     return <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.navigate(pressRoute, {id: comicInfo.id})}>

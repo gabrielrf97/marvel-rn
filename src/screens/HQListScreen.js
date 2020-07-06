@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { View, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 
-import ComicItem from '../components/CharacterItem'
+import ComicItem from '../components/ComicItem'
 
-import {fetchHQs} from '../helpers/marvelAPI'
+import {fetch} from '../helpers/marvelAPI'
 
 
 const HQListScreen = ({navigation}) => {
@@ -17,7 +17,7 @@ const HQListScreen = ({navigation}) => {
 
     const fetchData = () => {
         setState({...state, loading: true})
-        fetchHQs(state.search, state.fetchedPages).then(response => {
+        fetch('/comics',state.search, state.fetchedPages).then(response => {
             setState({comics: [...state.comics,...response], fetchedPages: state.fetchedPages + 1, loading: false})
         })
     }
@@ -69,7 +69,7 @@ const HQListScreen = ({navigation}) => {
             fetchData()
         }}
         renderItem={({item})=> {
-            return <ComicItem characterInfo={item}/>
+            return <ComicItem comicInfo={item} pressRoute='CharacterScreen'/>
             }
         }
         />

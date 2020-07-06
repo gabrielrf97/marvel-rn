@@ -5,8 +5,8 @@ import CharacterListScreen from './src/screens/CharacterListScreen'
 import CharacterScreen from './src/screens/CharacterScreen'
 import HQListScreen from './src/screens/HQListScreen'
 import HQScreen from './src/screens/HQScreen'
-import MovieListScreen from './src/screens/MovieListScreen'
-import MovieScreen from './src/screens/MovieScreen'
+import SerieListScreen from './src/screens/SerieListScreen'
+import SerieScreen from './src/screens/SerieScreen'
 
 const characterStack = createStackNavigator({
   CharacterList: CharacterListScreen,
@@ -18,15 +18,15 @@ const hqStack = createStackNavigator({
   HQScreen: HQScreen
 })
 
-const movieStack = createStackNavigator({
-  MovieList: MovieListScreen,
-  MovieScreen: MovieScreen
+const serieStack = createStackNavigator({
+  SerieList: SerieListScreen,
+  SerieScreen: SerieScreen
 })
 
 const appNavigator = createBottomTabNavigator({
   Character: characterStack,
   HQ: hqStack,
-  Movie: movieStack
+  Serie: serieStack
 })
 
 const App = createAppContainer(appNavigator)
