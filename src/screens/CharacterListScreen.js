@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, FlatList, ActivityIndicator} from 'react-native'
+import { View, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 
 import CharacterItem from '../components/CharacterItem'
@@ -69,7 +69,7 @@ const CharacterListScreen = ({navigation}) => {
             fetchData()
         }}
         renderItem={({item})=> {
-            return <CharacterItem characterInfo={item} />
+            return <CharacterItem characterInfo={item} pressRoute='CharacterScreen'/>
             }
         }
         />

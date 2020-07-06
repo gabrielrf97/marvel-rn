@@ -2,13 +2,13 @@ import React from 'react'
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {withNavigation} from 'react-navigation'
 
-const CharacterItem = ({navigation, characterInfo, pressRoute}) => {
+const ComicItem = ({navigation, comicInfo, pressRoute}) => {
     
-    let picturePath = characterInfo.thumbnail.path +'.'+ characterInfo.thumbnail.extension
+    let picturePath = comicInfo.thumbnail.path +'.'+ comicInfo.thumbnail.extension
     return <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.navigate(pressRoute, {id: characterInfo.id})}>
+        <TouchableOpacity onPress={() => navigation.navigate(pressRoute, {id: comicInfo.id})}>
             <Image source={{uri: picturePath}} style={styles.heroImage}/>
-            <Text style={styles.heroName}>{characterInfo.name}</Text>
+            <Text style={styles.heroName}>{comicInfo.title}</Text>
         </TouchableOpacity>
     </View>
 }
@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
     },
     heroImage: {
         width: 180,
-        height: 180,
-        borderRadius: 22
+        height: 240
     },
     heroName: {
         height: 40,
@@ -32,4 +31,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withNavigation(CharacterItem);
+export default withNavigation(ComicItem);
