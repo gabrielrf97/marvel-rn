@@ -4,7 +4,7 @@ import { SearchBar } from 'react-native-elements'
 
 import ComicItem from '../components/ComicItem'
 
-import {fetch} from '../helpers/marvelAPI'
+import {fetchList} from '../helpers/marvelAPI'
 
 
 const HQListScreen = ({navigation}) => {
@@ -17,7 +17,7 @@ const HQListScreen = ({navigation}) => {
 
     const fetchData = () => {
         setState({...state, loading: true})
-        fetch('/comics',state.search, state.fetchedPages).then(response => {
+        fetchList('/comics',state.search, state.fetchedPages).then(response => {
             setState({comics: [...state.comics,...response], fetchedPages: state.fetchedPages + 1, loading: false})
         })
     }
@@ -69,7 +69,7 @@ const HQListScreen = ({navigation}) => {
             fetchData()
         }}
         renderItem={({item})=> {
-            return <ComicItem comicInfo={item} pressRoute='CharacterScreen'/>
+            return <ComicItem comicInfo={item} pressRoute='HQScreen'/>
             }
         }
         />

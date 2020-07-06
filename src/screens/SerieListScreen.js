@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react'
 import { View, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 
-import {fetch} from '../helpers/marvelAPI'
+import {fetchList} from '../helpers/marvelAPI'
 import ComicItem from '../components/ComicItem'
 
 
 const SerieListScreen = ({navigation}) => {
 
-    const [state, setState] = useState({characters: [], fetchedPages: 0, search: '', loading: false})
+    const [state, setState] = useState({series: [], fetchedPages: 0, search: '', loading: false})
 
     useEffect( () => {
         fetchData()
@@ -16,8 +16,8 @@ const SerieListScreen = ({navigation}) => {
 
     const fetchData = () => {
         setState({...state, loading: true})
-        fetch('/series', state.search, state.fetchedPages).then(response => {
-            setState({characters: [...state.characters,...response], fetchedPages: state.fetchedPages + 1, loading: false})
+        fetchList('/series', state.search, state.fetchedPages).then(response => {
+            setState({series: [...state.series,...response], fetchedPages: state.fetchedPages + 1, loading: false})
         })
     }
 
@@ -59,7 +59,7 @@ const SerieListScreen = ({navigation}) => {
         platform = 'ios'
         />
         <FlatList 
-        data={state.characters} 
+        data={state.series} 
         keyExtractor={(item)=>`${item.id}`}
         numColumns ={2}
         onEndReachedThreshold = {0.5}
@@ -68,7 +68,7 @@ const SerieListScreen = ({navigation}) => {
             fetchData()
         }}
         renderItem={({item})=> {
-            return <ComicItem comicInfo={item} pressRoute='CharacterScreen'/>
+            return <ComicItem comicInfo={item} pressRoute='SerieScreen'/>
             }
         }
         />

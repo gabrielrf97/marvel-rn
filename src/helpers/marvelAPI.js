@@ -26,11 +26,38 @@ export async function fetchCharacter(id) {
         params: params
     })
 
-    console.log(`RESULTS: ${response.data.data.results}`)
     return response.data.data.results[0]
 }
 
-export async function fetch(route, name, fetchedPages) {
+export async function fetchSerie(id) {
+    let params = PARAMS
+
+    console.log(`CALLING WITH ID: ${id}`)
+
+    let response = await server.get(`/series/${id}`, {
+        params: params
+    })
+
+    console.log(`FETCHED SERIE: ${response.data.data.results[0]}`)
+
+    return response.data.data.results[0]
+}
+
+export async function fetchComic(id) {
+    let params = PARAMS
+
+    console.log(`CALLING WITH ID: ${id}`)
+
+    let response = await server.get(`/comics/${id}`, {
+        params: params
+    })
+
+    console.log(`FETCHED COMIC: ${response.data.data.results[0]}`)
+
+    return response.data.data.results[0]
+}
+
+export async function fetchList(route, name, fetchedPages) {
     let params = PARAMS
     
     let offset = fetchedPages * LIMIT

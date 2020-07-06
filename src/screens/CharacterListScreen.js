@@ -4,7 +4,7 @@ import { SearchBar } from 'react-native-elements'
 
 import CharacterItem from '../components/CharacterItem'
 
-import {fetch} from '../helpers/marvelAPI'
+import {fetchList} from '../helpers/marvelAPI'
 
 
 const CharacterListScreen = ({navigation}) => {
@@ -17,7 +17,7 @@ const CharacterListScreen = ({navigation}) => {
 
     const fetchData = () => {
         setState({...state, loading: true})
-        fetch('/characters', state.search, state.fetchedPages).then(response => {
+        fetchList('/characters', state.search, state.fetchedPages).then(response => {
             setState({characters: [...state.characters,...response], fetchedPages: state.fetchedPages + 1, loading: false})
         })
     }
