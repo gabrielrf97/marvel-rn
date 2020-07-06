@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createAppContainer} from 'react-navigation'
+import {createStackNavigator} from 'react-navigation-stack'
+import {createBottomTabNavigator} from 'react-navigation-tabs'
+import CharacterListScreen from './src/screens/CharacterListScreen'
+import CharacterScreen from './src/screens/CharacterScreen'
+import HQListScreen from './src/screens/HQListScreen'
+import HQScreen from './src/screens/HQScreen'
+import MovieListScreen from './src/screens/MovieListScreen'
+import MovieScreen from './src/screens/MovieScreen'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const characterStack = createStackNavigator({
+  CharacterList: CharacterListScreen,
+  CharacterScreen: CharacterScreen
+})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const hqStack = createStackNavigator({
+  HQList: HQListScreen,
+  HQScreen: HQScreen
+})
+
+const movieStack = createStackNavigator({
+  MovieList: MovieListScreen,
+  MovieScreen: MovieScreen
+})
+
+const appNavigator = createBottomTabNavigator({
+  Character: characterStack,
+  HQ: hqStack,
+  Movie: movieStack
+})
+
+const App = createAppContainer(appNavigator)
+
+export default App;
