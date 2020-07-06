@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, Image, ActivityIndicator, FlatList, Dimensions, SafeAreaView, ScrollView} from 'react-native'
-import {ListItem} from 'react-native-elements'
+import { ActivityIndicator, Dimensions, SafeAreaView, ScrollView} from 'react-native'
 
-import {fetchCharacter} from '../helpers/marvelAPI'
+import {fetchSingleItem} from '../helpers/marvelAPI'
+
 import TopImage from '../components/TopImage'
 import Title from '../components/Title'
+import Paragraph from '../components/Paragraph'
+import InfoSection from '../components/InfoSection'
 
 const CharacterScreen = ({navigation}) => {
 
     const [character,setCharacter] = useState(null)
     const id = navigation.getParam('id')
 
-    
-
     useEffect( () => {
-        fetchCharacter(id).then((response) => {
+        fetchSingleItem('characters', id).then((response) => {
             setCharacter(response)
         })
     }, [])
@@ -25,25 +25,11 @@ const CharacterScreen = ({navigation}) => {
                 <>
                     <TopImage uri={character.thumbnail.path + '.' + character.thumbnail.extension}/>
                     <Title content={character.name}/>
-                    <Text style={styles.paragraph}>{character.description}</Text>
-                    <Text style={styles.subtitle}>Comics</Text>
-                    <FlatList data={character.comics.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />
-                    <Text style={styles.subtitle}>Series</Text>
-                    <FlatList data={character.series.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />
-                    <Text style={styles.subtitle}>Stories</Text>
-                    <FlatList data={character.stories.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />
-                    { character.events.length > 0 ?
-                        <>
-                            <Text style={styles.subtitle}>Events</Text>
-                            <FlatList data={character.events.items} keyExtractor={(item)=>item.resourceURI} 
-                            renderItem={({item})=> <ListItem title={item.name}/>} />
-                        </>
-                        : null
-                    }
-                    
+                    <Paragraph content={character.description} />
+                    <InfoSection data={character.comics.items} title="Comics" />
+                    <InfoSection data={character.series.items} title="Series" />
+                    <InfoSection data={character.stories.items} title="Stories" />
+                    <InfoSection data={character.events.items} title="Events" />
                 </>
             : <ActivityIndicator size='large' />
             }
@@ -56,15 +42,5 @@ CharacterScreen.navigationOptions = {
 }
 
 const screenWidth = Math.round(Dimensions.get('window').width)
-
-const styles = StyleSheet.create({
-    paragraph: {
-        fontSize: 18, 
-        marginHorizontal: 10
-    }, subtitle: {
-        fontSize: 22, 
-        margin: 10
-    }
-})
 
 export default CharacterScreen;

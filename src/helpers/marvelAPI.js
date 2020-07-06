@@ -17,42 +17,12 @@ const server = axios.create({
     baseURL: 'https://gateway.marvel.com/v1/public/'
 })
 
-export async function fetchCharacter(id) {
+export async function fetchSingleItem(type, id) {
     let params = PARAMS
 
-    console.log(`CALLING WITH ID: ${id}`)
-
-    let response = await server.get(`/characters/${id}`, {
+    let response = await server.get(`/${type}/${id}`, {
         params: params
     })
-
-    return response.data.data.results[0]
-}
-
-export async function fetchSerie(id) {
-    let params = PARAMS
-
-    console.log(`CALLING WITH ID: ${id}`)
-
-    let response = await server.get(`/series/${id}`, {
-        params: params
-    })
-
-    console.log(`FETCHED SERIE: ${response.data.data.results[0]}`)
-
-    return response.data.data.results[0]
-}
-
-export async function fetchComic(id) {
-    let params = PARAMS
-
-    console.log(`CALLING WITH ID: ${id}`)
-
-    let response = await server.get(`/comics/${id}`, {
-        params: params
-    })
-
-    console.log(`FETCHED COMIC: ${response.data.data.results[0]}`)
 
     return response.data.data.results[0]
 }

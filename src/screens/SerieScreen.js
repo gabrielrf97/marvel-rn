@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, Image, ActivityIndicator, FlatList, Dimensions, SafeAreaView, ScrollView} from 'react-native'
-import {ListItem} from 'react-native-elements'
+import { ActivityIndicator, SafeAreaView, ScrollView} from 'react-native'
 
-import {fetchSerie} from '../helpers/marvelAPI'
+import {fetchSingleItem} from '../helpers/marvelAPI'
+
 import TopImage from '../components/TopImage'
 import Title from '../components/Title'
+import Paragraph from '../components/Paragraph'
+import InfoSection from '../components/InfoSection'
 
 const SerieScreen = ({navigation}) => {
 
@@ -12,7 +14,7 @@ const SerieScreen = ({navigation}) => {
     const id = navigation.getParam('id')
 
     useEffect( () => {
-        fetchSerie(id).then((response) => {
+        fetchSingleItem('series', id).then((response) => {
             setSerie(response)
         })
     }, [])
@@ -23,13 +25,9 @@ const SerieScreen = ({navigation}) => {
                 <>
                     <TopImage uri={serie.thumbnail.path + '.' + serie.thumbnail.extension}/>
                     <Title content={serie.title} />
-                    <Text style={styles.paragraph}>{serie.description}</Text>
-                    <Text style={styles.subtitle}>Characters</Text>
-                    <FlatList data={serie.characters.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />
-                    <Text style={styles.subtitle}>Creators</Text>
-                    <FlatList data={serie.creators.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />                 
+                    <Paragraph content={serie.description}/>
+                    <InfoSection title="Characters" data={serie.characters.items} />
+                    <InfoSection title="Creators" data={serie.creators.items} />               
                 </>
             : <ActivityIndicator size='large' />
             }
@@ -40,23 +38,5 @@ const SerieScreen = ({navigation}) => {
 SerieScreen.navigationOptions = {
     headerTitle: "Serie"
 }
-
-const screenWidth = Math.round(Dimensions.get('window').width)
-
-const styles = StyleSheet.create({
-    serieImage: {
-        width: screenWidth, 
-        height: screenWidth
-    }, title: {
-        fontSize: 28, 
-        margin: 10
-    }, paragraph: {
-        fontSize: 18, 
-        marginHorizontal: 10
-    }, subtitle: {
-        fontSize: 22, 
-        margin: 10
-    }
-})
 
 export default SerieScreen;

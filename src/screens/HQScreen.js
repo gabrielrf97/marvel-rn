@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, Image, ActivityIndicator, FlatList, SafeAreaView, ScrollView} from 'react-native'
-import {ListItem} from 'react-native-elements'
+import { ActivityIndicator, SafeAreaView, ScrollView} from 'react-native'
 
-import {fetchComic} from '../helpers/marvelAPI'
+import {fetchSingleItem} from '../helpers/marvelAPI'
 
 import TopImage from '../components/TopImage'
 import Title from '../components/Title'
+import Paragraph from '../components/Paragraph'
+import InfoSection from '../components/InfoSection'
 
 const HQScreen = ({navigation}) => {
 
@@ -13,7 +14,7 @@ const HQScreen = ({navigation}) => {
     const id = navigation.getParam('id')
 
     useEffect( () => {
-        fetchComic(id).then((response) => {
+        fetchSingleItem('comics', id).then((response) => {
             setSerie(response)
         })
     }, [])
@@ -24,13 +25,9 @@ const HQScreen = ({navigation}) => {
                 <>
                     <TopImage uri={serie.thumbnail.path + '.' + serie.thumbnail.extension} />
                     <Title content={serie.title}/>
-                    <Text style={styles.paragraph}>{serie.description}</Text>
-                    <Text style={styles.subtitle}>Characters</Text>
-                    <FlatList data={serie.characters.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />
-                    <Text style={styles.subtitle}>Creators</Text>
-                    <FlatList data={serie.creators.items} keyExtractor={(item)=>item.resourceURI} 
-                        renderItem={({item})=> <ListItem title={item.name}/>} />                 
+                    <Paragraph content={serie.description}/>
+                    <InfoSection data={serie.characters.items} title="Characters" />
+                    <InfoSection data={serie.creators.items} title="Creators" />            
                 </>
             : <ActivityIndicator size='large' />
             }
@@ -41,18 +38,5 @@ const HQScreen = ({navigation}) => {
 HQScreen.navigationOptions = {
     headerTitle: "HQ"
 }
-
-const styles = StyleSheet.create({
-    title: {
-        fontSize: 28, 
-        margin: 10
-    }, paragraph: {
-        fontSize: 18, 
-        marginHorizontal: 10
-    }, subtitle: {
-        fontSize: 22, 
-        margin: 10
-    }
-})
 
 export default HQScreen;
